@@ -4,9 +4,15 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRippleModule,
+  MatDialogModule,
+  MatSelectModule
+} from '@angular/material';
 
 
 //Components
@@ -43,12 +49,19 @@ import { DialogComponent } from './components/dialog/dialog.component';
     APP_ROUTING,
     FormsModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRippleModule,
     MatDialogModule,
+    MatSelectModule,
     BrowserAnimationsModule
     // RouterModule.forRoot( ROUTES, {useHash: true})
 
   ],
+  entryComponents: [DialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+export class MaterialModule {}

@@ -21,9 +21,9 @@ router.post('/login', async (req, res, next) =>
   console.log('Ey' + DNI  + '  ' + pass);
 
   try {
-    this.login(DNI, pass, function (error, result) {
+    login(DNI, pass, function (error, result) {
       if (error) err.Errors(res, error);
-      else err.Errors(res, error, result);
+      else err.Errors(res, error, {data: result});
     });
   }catch (error){
     console.error(error);

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
-//import Swal from 'sweetalert2';
-
+// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -42,14 +41,15 @@ export class AuthenticationService {
     window.history.go(-1);
   }
 
-/*
+
   //funcion de error
   showError(title, text, type, confirmButtonText) {
     Swal.fire({
       type: 'error',
       text: 'Error al autenticar'
     });
-  }*/
+
+  }
 
 /*
   delete = (title, text, type, confirmButtonText) => {

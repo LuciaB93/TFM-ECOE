@@ -63,10 +63,10 @@
     </div>
 
     <!-- Login Form -->
-    <form [formGroup]="forma" (ngSubmit)="guardarCambios()">
+    <form [formGroup]="forma" mat-button (ngSubmit)="guardarCambios()">
       <input type="text" formControlName="DNI" id="login" class="fadeIn second" name="login" placeholder="login" required>
       <input type="password" formControlName="password" id="password" class="fadeIn third" name="login" placeholder="password" required>
-      <input type="submit"  [disabled]="loading" class="btn btn-primary btn-lg" value="Log In">
+      <input type="submit" class="btn btn-primary btn-lg" value="Log In">
     </form>
 
     <!-- Remind Passowrd -->
