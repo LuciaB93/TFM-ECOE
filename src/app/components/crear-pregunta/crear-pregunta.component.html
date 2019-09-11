@@ -1,0 +1,60 @@
+<!--<app-panel-coordi></app-panel-coordi>-->
+  <div id="inicial"></div>
+  <h1 id="subpanel">Crear Una Pregunta</h1>
+  <div id="formularioPregunta">
+    <p>Seleccione el tipo de prueba a crear</p>
+    <select (change)="tipoPregunta($event.target.value)">
+      <option value="">-- Tipo Prueba --</option>
+      <option *ngFor="let i of tipos" [(value)]="i.id" >{{i.nombre}}</option>
+    </select>
+
+    <div *ngIf="tipoSelected == 1"><br>
+      <form class="form-group" [formGroup]="diagnostico" (ngSubmit)="guardarPreguntaDiagnostico()">
+        <div class="form-group">
+          <select class="form-control" (change)="tipoPregunta1($event.target.value)">
+            <option value = "" > -- Seleccione Materia -- </option>
+            <option *ngFor="let mat of materias" [value] = "mat.id"> {{mat.nombre}}</option>
+          </select>
+        </div>
+        <br>
+        <textarea class="form-control"
+                  rows="5"
+                  cols="40"
+                  formControlName="descripcion"
+                  id="descripcion"
+                  placeholder="Descripción">
+        </textarea>
+        <br>
+        <input class="form-control"
+               type="text"
+               formControlName="pregunta"
+               id="pregunta"
+               placeholder="pregunta" required>
+        <br>
+        <input class="form-control-file"
+               type="file"
+               formControlName="imagen"
+               id="imagen"
+               placeholder="¿Incluye Imagen?"
+               (change)="handleFileInput($event.target.files)">
+        <br>
+        <input class="form-control"
+               type="text"
+               formControlName="respuestas"
+               id="respuestas"
+               placeholder="Indicar todas las respuestas a la pregunta" required>
+        <br>
+
+        <input type="button" (click)="addResponse($event.target)" formControlName="listaRespuestas" id="listaRespuestas" >click</input>
+
+        <input class="form-control" type="text" formControlName="respuestaOk" id="respuestaOk" placeholder="Indicar de las anteriores, la correcta"><br>
+        <button class="btn btn-primary mb-2" type="submit" class="btn btn-primary btn-lg" value="enviar"> Enviar </button>
+      </form>
+    </div> <!--Primer tipo -->
+
+
+
+
+
+  </div>
+

@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material';
+import { AuthenticationService } from '../../services/authentication.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -7,20 +8,23 @@ import Swal from 'sweetalert2';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.css']
 })
-export class DialogComponent{
+export class DialogComponent {
   roles: any[] = [];
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-
-    console.log('Esto que es:' + data);
+  userRol: any;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private auth: AuthenticationService) {
     this.roles = data;
-    console.log('Los roles: ' + this.roles);
   }
 
-  answer(answer) {
-    if (answer != null) {
-      //mddDialog.hide(answer);
-      console.log(answer);
-     // $miFunction.redirige(answer);
+  rolSelected(rol) {
+    console.log(rol);
+    this.userRol = rol;
+  }
+  answer() {
+    console.log(this.userRol);
+    if (this.userRol != null) {
+      Swal.close();
+     // console.log(rol);
+      this.auth.redirige(this.userRol);
     }
   };
 

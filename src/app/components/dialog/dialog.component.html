@@ -2,8 +2,9 @@
   <div id="roles">
     <h2 mat-dialog-title>Seleccione el rol para acceder</h2>
     <mat-dialog-content>
-      <select class="custom-select" >
-       <option *ngFor="let rol of roles; let i = index;" [value]="rol" [(ngModel)]="rol" name = "rol" >{{rol}} </option>
+      <select class="custom-select" (change)="rolSelected($event.target.value)" >
+       <option>-- Seleccione un rol -- </option>
+       <option *ngFor="let rol of roles;" [value]="rol"  name = "rol" >{{rol}} </option>
       </select>
     </mat-dialog-content>
 
@@ -18,10 +19,10 @@
 
 -->
 
-  <mat-dialog-actions>
+  <div mat-dialog-actions>
     <button class="mat-button" mat-button [mat-dialog-close]="data" >Cancel</button>
-    <button class="mat-button" mat-button  cdkFocusInitial color="primary" (click)="answer(rol)">Seleccionar</button>
-  </mat-dialog-actions>
+    <button (click)="answer()"  type="button" class="mat-button" mat-button cdkFocusInitial color="primary" [mat-dialog-close]="data"  >Seleccionar</button>
+  </div>
 
   </div>
 </div>

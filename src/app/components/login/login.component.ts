@@ -3,7 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialogRef, MatDialogConfig } from '@angular/material';
+import {MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { map } from 'rxjs/operators';
 
@@ -21,8 +22,8 @@ export class LoginComponent implements OnInit {
   roles_aux: any;
 
   usario: Object = {
-    DNI: "76629676",
-    password: "lucia1234",
+    DNI: "76629678",
+    password: "lucia",
     correo: "sfdsfs@gmail.com"
   };
 
@@ -77,10 +78,9 @@ export class LoginComponent implements OnInit {
 
         if (this.roles_aux.length === 1) {
           this.auth.redirige(this.roles_aux[0]);
-          console.log('Estoy aqui');
         } else {
-          this.showRoles(event, this.roles_aux);
-          console.log('Estoy aqui2');
+          console.log('No puede haber más roles')
+          //this.showRoles(event, this.roles_aux);
         }
         // MyService.data.DNI = vm.dniModel;
         // $location.url("/alterUser");
@@ -114,7 +114,7 @@ export class LoginComponent implements OnInit {
 
     return roles_aux;
   }
-
+/*
 
   showRoles(ev, roles) {
     roles = this.roles_aux;
@@ -122,12 +122,11 @@ export class LoginComponent implements OnInit {
     dialogConfig.data = roles;
     console.log(dialogConfig);
     this.dialog.open(DialogComponent, {
-      height: '400px',
-      width: '600px',
-      data: dialogConfig.data
+      data: dialogConfig.data,
+      closeOnNavigation: true
     } );
     //const dialogConfig = this.dialog.open(DialogComponent, roles);
     //return dialogConfig.afterClosed();
-  }
+  }*/
 
 }

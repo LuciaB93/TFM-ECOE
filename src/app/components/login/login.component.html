@@ -53,26 +53,32 @@
   </div>
 </div>
 -->
-<div class="wrapper fadeInDown">
-  <div id="formContent">
-    <!-- Tabs Titles -->
 
-    <!-- Icon -->
-    <div class="fadeIn first">
-      <img src="./assets/img/med-logo.jpg" id="icon" alt="User Icon" />
-    </div>
 
-    <!-- Login Form -->
-    <form [formGroup]="forma" mat-button (ngSubmit)="guardarCambios()">
-      <input type="text" formControlName="DNI" id="login" class="fadeIn second" name="login" placeholder="login" required>
-      <input type="password" formControlName="password" id="password" class="fadeIn third" name="login" placeholder="password" required>
-      <input type="submit" class="btn btn-primary btn-lg" value="Log In">
-    </form>
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
 
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-      <a class="underlineHover" href="#">Forgot Password?</a>
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="./assets/img/med-logo.jpg" id="icon" alt="User Icon" />
+      </div>
+
+      <!-- Login Form -->
+      <form [formGroup]="forma" mat-button (ngSubmit)="guardarCambios()">
+        <input type="text" formControlName="DNI" id="login" class="fadeIn second" name="login" placeholder="login" required>
+        <input type="password" formControlName="password" id="password" class="fadeIn third" name="login" placeholder="password" required>
+        <input type="submit" class="btn btn-primary btn-lg" value="Log In">
+      </form>
+
+     <!-- <app-dialog></app-dialog>-->
+
+      <!-- Remind Passowrd-->
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Forgot Password?</a>
+      </div>
+
     </div>
 
   </div>
-</div>
+

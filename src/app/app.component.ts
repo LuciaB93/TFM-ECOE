@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent {
   title = 'ECOE-TFM';
+
+
   /*
 
   messages = this.http.get<any[]>('http://localhost:3000');
@@ -19,4 +22,5 @@ export class AppComponent {
       .subscribe(next => console.log(next));
   }
   */
+
 }

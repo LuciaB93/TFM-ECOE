@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-// import { RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import {
   MatDialogModule,
   MatSelectModule
 } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 
 //Components
@@ -26,6 +27,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 // Routes
 import { APP_ROUTING } from './app.routes';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { PanelCoordiComponent } from './components/panel-coordi/panel-coordi.component';
+import { CrearPreguntaComponent } from './components/crear-pregunta/crear-pregunta.component';
 
 // services
 
@@ -41,7 +44,9 @@ import { DialogComponent } from './components/dialog/dialog.component';
     RegisterComponent,
     LoginComponent,
     NavbarComponent,
-    DialogComponent
+    DialogComponent,
+    PanelCoordiComponent,
+    CrearPreguntaComponent
   ],
   imports: [
     BrowserModule,
@@ -55,12 +60,16 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MatRippleModule,
     MatDialogModule,
     MatSelectModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RouterModule
     // RouterModule.forRoot( ROUTES, {useHash: true})
 
   ],
   entryComponents: [DialogComponent],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

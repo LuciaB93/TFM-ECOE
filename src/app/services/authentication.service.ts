@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-// import Swal from 'sweetalert2';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -13,14 +12,17 @@ export class AuthenticationService {
   edita(id) {
     this.http.post<any>('http://localhost:3000/modificar', id.ID)
       .subscribe( next => console.log(next));
+    console.log(id.ID);
 
   }
 
   redirige(rol) {
     if (rol === 'alumno')
       this.router.navigateByUrl('/panelAlumno');
-    else if (rol === 'coordinador')
-      this.router.navigateByUrl('/panelCoordinador');
+    else if (rol === 'coordinador') {
+      console.log('Estoy en coordi');
+      this.router.navigateByUrl('/panel-coordi');
+    }
     else if (rol === 'profesor')
       this.router.navigateByUrl('/panelProfesor');
     else if (rol === 'actor')
@@ -49,6 +51,16 @@ export class AuthenticationService {
       text: 'Error al autenticar'
     });
 
+  }
+  isLoggedIn() {
+    if (localStorage.getItem('currentUser')) {
+      return true;
+    }
+    return false;
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
   }
 
 /*

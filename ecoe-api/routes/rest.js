@@ -98,5 +98,16 @@ router.post('/login', async (req, res, next) =>
   }
 });
 
+router.post('/subject', function (req, res, next) {
+  connection.query('Select * from subject;', function (error, result) {
+    if (error)
+      err.Errors(res, error);
+    else {
+      err.Errors(res, error, {data: result});
+    }
+  })
+});
+
+
 module.exports = router;
 

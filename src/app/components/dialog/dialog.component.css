@@ -1,3 +1,13 @@
-.container{
+/*.container{
   background-color: white;
+}*/
+.mat-dialog-content{
+  position: relative;
+}
+.cdk-global-overlay-wrapper{
+  float: inherit;
+  align-items: center;
+}
+.cdk-overlay-container{
+  margin-bottom: 80%;
 }
