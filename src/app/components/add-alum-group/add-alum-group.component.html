@@ -1,0 +1,57 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Crear grupo de usuarios</h1>
+<div id="formularioPregunta">
+  <form class="form-group" [formGroup]="addGroupUser" (ngSubmit)="addNewGroupUser()">
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="nombreG"
+           id="nombreG"
+           placeholder="Nombre del grupo">
+
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="anioG"
+           id="anioG"
+           placeholder="Año de convocatioria">
+
+    <br>
+    <div class="form-group">
+      <select class="form-control" (change)="selectProf($event.target.value)" formControlName="profSelected">
+        <option value = " "> --Seleccione un Profesor para Realizar la Evaluación-- </option>
+        <option *ngFor="let p of profesores" [(value)]="p.ID"> {{p.DNI}} | {{p.nombre}} {{p.apellidos}}</option>
+      </select>
+    </div>
+
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">DNI</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">Seleccionar Usuario</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let user of userList; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{user.DNI}}</td>
+        <td>{{user.nombre}}</td>
+        <td>{{user.apellidos}}</td>
+        <td>
+          <input type="checkbox" aria-label="Checkbox for following text input" (click)="add(user.ID)">
+        </td>
+      </tr>
+      </tbody>
+      </table>
+
+    <button class="btn btn-primary mb-2" type="submit" value="enviar"> Crear Grupo </button>
+
+
+
+
+
+  </form>
+</div>

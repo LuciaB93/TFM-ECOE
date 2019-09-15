@@ -47,8 +47,10 @@ export class AuthenticationService {
   //funcion de error
   showError(title, text, type, confirmButtonText) {
     Swal.fire({
-      type: 'error',
-      text: 'Error al autenticar'
+      title: title,
+      text: text,
+      type: type,
+      confirmButtonText: confirmButtonText
     });
 
   }

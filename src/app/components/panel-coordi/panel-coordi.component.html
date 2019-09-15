@@ -37,7 +37,7 @@
           <a data-toggle="collapse" data-target="#submenu-1"> Administrar Preguntas <i class="fa fa-fw fa-angle-down pull-right"></i></a>
           <ul id="submenu-1" class="collapse">
             <li><a class="nav-link" name="creaPregunta" (click)="seleccionaOpcion($event)"> Crear Nueva Pregunta</a></li>
-            <li><a class="nav-link" name="modPregunta" (click)="seleccionaOpcion($event)"> Modificar Pregunta</a></li>
+            <li><a class="nav-link" name="modPregunta" (click)="seleccionaOpcion($event)"> Eliminar Pregunta</a></li>
             <!--<li><a href="#"><i class="fa fa-angle-double-right"></i> SUBMENU 1.3</a></li>-->
           </ul>
         </li>
@@ -45,20 +45,27 @@
         <li>
           <a href="#" data-toggle="collapse" data-target="#submenu-2"> Administrar Usuarios <i class="fa fa-fw fa-angle-down pull-right"></i></a>
           <ul id="submenu-2" class="collapse">
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Agregar Usuario</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Modificar/Eliminar Usuario</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Crear Grupo Alumnos</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Listar Grupo Alumnos</a></li>
+            <li><a class="nav-link" name="addUser" (click)="seleccionaOpcion($event)"> Agregar Usuario</a></li>
+            <li><a class="nav-link" name="delUser" (click)="seleccionaOpcion($event)"> Eliminar Usuario</a></li>
+            <li><a class="nav-link" name="addGroupUser" (click)="seleccionaOpcion($event)"> Crear Grupo Alumnos</a></li>
+            <li><a class="nav-link" name="listGroupUser" (click)="seleccionaOpcion($event)"> Listar Grupo Alumnos</a></li>
           </ul>
         </li>
 
         <li>
           <a href="#" data-toggle="collapse" data-target="#submenu-3"> Administrar Estaciones <i class="fa fa-fw fa-angle-down pull-right"></i></a>
           <ul id="submenu-3" class="collapse">
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Crear Estación</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Asignar Estación</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Mostrar/Eliminar Estación</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Cambiar Contraseña de una Estación</a></li>
+            <li><a class="nav-link" name="addEstacion" (click)="seleccionaOpcion($event)"> Crear Estación</a></li>
+            <li><a class="nav-link" name="asignEstacion" (click)="seleccionaOpcion($event)"> Asignar Estación</a></li>
+            <li><a class="nav-link" name="delEstacion" (click)="seleccionaOpcion($event)"> Mostrar/Eliminar Estación</a></li>
+            <li><a class="nav-link" name="cambiarPass" (click)="seleccionaOpcion($event)"> Cambiar Contraseña de una Estación</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" data-toggle="collapse" data-target="#submenu-4"> Administrar Examenes <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+          <ul id="submenu-4" class="collapse">
+            <li><a class="nav-link" name="addExamen" (click)="seleccionaOpcion($event)"> Generar Examen ECOE</a></li>
+            <li><a class="nav-link" name="verExamen" (click)="seleccionaOpcion($event)"> Ver Exámenes</a></li>
           </ul>
         </li>
 <!--
@@ -80,16 +87,50 @@
     <div class="container-fluid">
       <!-- Page Heading-->
       <div class="row" id="main" >
+        <div  *ngIf="nonSelected">
+          <img src="../../../assets/img/logoUgr.png" class="img-fluid" alt="Responsive image">
+          <h2 style="text-align: center">GALENO</h2>
+          <!--<p>Bienvenido al panel del coordinador</p> -->
+        </div>
         <div *ngIf="creaPregunta" class="col-sm-12 col-md-12 well" id="content" >
           <app-crear-pregunta></app-crear-pregunta>
         </div>
         <div class="col-sm-12 col-md-12 well" *ngIf="modPregunta">
-          <h1>Welcome Admin!</h1>
-          <app-home></app-home>
+          <app-mod-pregunta></app-mod-pregunta>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="addUser">
+          <app-add-user></app-add-user>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="delUser">
+          <app-del-user></app-del-user>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="addGroupUser">
+          <app-add-alum-group></app-add-alum-group>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="listGroupUser">
+          <app-list-group-user></app-list-group-user>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="addEstacion">
+          <app-add-estacion></app-add-estacion>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="asignEstacion">
+          <app-asign-estacion></app-asign-estacion>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="delEstacion">
+          <app-del-estacion></app-del-estacion>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="cambiarPass">
+          <app-cambiar-pass></app-cambiar-pass>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="addExamen">
+          <app-add-examen></app-add-examen>
+        </div>
+        <div class="col-sm-12 col-md-12 well" *ngIf="verExamen">
+          <app-ver-examen></app-ver-examen>
         </div>
         <!--<div class="col-sm-12 col-md-12 well" id="content">
           <h1>Welcome Admin!</h1>
-         <!-- <app-home></app-home>
+         <!-- <addExamenhome></addExamenhome>
         </div>-->
 
       </div>
@@ -99,3 +140,4 @@
   </div>
   <!-- /#page-wrapper -->
 </div><!-- /#wrapper -->
+

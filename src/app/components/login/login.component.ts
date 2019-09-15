@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
         if (this.roles_aux.length === 1) {
           this.auth.redirige(this.roles_aux[0]);
         } else {
-          console.log('No puede haber más roles')
+          console.log('No puede haber más roles');
           //this.showRoles(event, this.roles_aux);
         }
         // MyService.data.DNI = vm.dniModel;

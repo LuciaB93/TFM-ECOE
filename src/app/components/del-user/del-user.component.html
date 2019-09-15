@@ -1,0 +1,37 @@
+<div id="inicial"></div>
+<!--<app-search></app-search>-->
+<h1 id="subpanel">Eliminar Usuario</h1>
+<div id="formularioPregunta">
+  <br>
+    <div class="form-group">
+      <select class="form-control" (change)="tipoRol($event.target.value)" [(value)]="tipoSelected">
+        <option value = " "> --Seleccione Rol de Usuario-- </option>
+        <option *ngFor="let rol of roles" [(value)]="rol.nombre"> {{rol.nombre}}</option>
+      </select>
+    </div>
+
+    <div *ngIf="isSelected">
+      <table class="table">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">DNI</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellidos</th>
+          <th scope="col">Eliminar</th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let user of userList; let i = index">
+        <tr>
+          <th scope="row">{{i}}</th>
+          <td>{{user.DNI}}</td>
+          <td>{{user.nombre}}</td>
+          <td>{{user.apellidos}}</td>
+          <td>
+            <button class="btn btn-outline-danger" (click)="eliminar(user.ID)">Eliminar</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+</div>

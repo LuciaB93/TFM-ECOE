@@ -1,0 +1,46 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Asignar Una Estación</h1>
+<div id="formularioPregunta">
+  <div class="form-group">
+    <p>Seleccione una Estación para Asignar a un Grupo de Alumnos </p>
+    <select class="form-control" (change)="asigEstacion($event.target.value)">
+      <option value = "" > --Seleccione Estación-- </option>
+      <option *ngFor="let e of estacionList" [(value)]="e.ID_estacion"> {{e.numero_estacion}} - {{e.nombre}}</option>
+    </select>
+  </div>
+  <div *ngIf="showGroups">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Grupo</th>
+        <th scope="col">Año Convocatoria</th>
+        <th scope="col">Profesor Responsable</th>
+        <th scope="col">Alumnos del Grupo</th>
+        <th scope="col">Seleccionar</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let g of groupList; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{g.nombre_grupo}}</td>
+        <td>{{g.anio_convocatoria}}</td>
+        <td>{{g.nombre}}</td>
+        <td>
+          <div *ngFor="let alum of alumList">
+            <div *ngIf="alum.ID_grupo===g.ID_grupo">
+              <li>{{alum.nombre}} {{alum.apellidos}}</li>
+            </div>
+          </div>
+        </td>
+        <td>
+          <input type="checkbox" aria-label="Checkbox for following text input" (click)="addGroupToEstacion(g.ID_grupo)">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="btn btn-primary mb-2" type="submit" value="enviar" (click)="guardarEstacion()"> Enviar </button>
+
+</div>

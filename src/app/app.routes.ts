@@ -7,7 +7,7 @@ import {PanelCoordiComponent} from './components/panel-coordi/panel-coordi.compo
 import {CrearPreguntaComponent} from './components/crear-pregunta/crear-pregunta.component';
 
 export const ROUTES: Routes = [
-  { path: 'home', component: HomeComponent},
+  { path: 'addExamen', component: HomeComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   // {path: 'crear-pregunta', component: CrearPreguntaComponent},

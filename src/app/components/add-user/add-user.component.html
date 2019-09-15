@@ -1,0 +1,49 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Dar de Alta a un Usuario</h1>
+<div id="formularioPregunta">
+  <form class="form-group" [formGroup]="addUser" (ngSubmit)="addNewUser()">
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="DNI"
+           id="DNI"
+           placeholder="DNI">
+
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="nombre"
+           id="nombre"
+           placeholder="nombre">
+
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="apellidos"
+           id="apellidos"
+           placeholder="apellidos">
+
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="email"
+           id="email"
+           placeholder="email">
+    <br>
+    <input class="form-control"
+           type="password"
+           formControlName="password"
+           id="pass"
+           placeholder="password">
+    <br>
+    <div class="form-group">
+      <select class="form-control" (change)="tipoRol($event.target.value)" formControlName="rolSelected">
+        <option value = "" > -- Seleccione Rol de Usuario -- </option>
+        <option *ngFor="let rol of roles" [(value)]="rol.nombre"> {{rol.nombre}}</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary mb-2" type="submit" value="enviar"> Enviar </button>
+  </form>
+
+</div>

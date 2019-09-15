@@ -1,0 +1,35 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Listar Grupos</h1>
+<div id="formularioPregunta">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Grupo</th>
+        <th scope="col">Año Convocatoria</th>
+        <th scope="col">Profesor Asignado</th>
+        <th scope="col">Alumnos Asignados</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let g of groups; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{g.nombre_grupo}}</td>
+        <td>{{g.anio_convocatoria}}</td>
+        <td>{{g.nombre}} {{g.apellidos}}</td>
+        <td>
+          <div *ngFor="let alum of alumnos">
+            <div *ngIf="alum.ID_grupo===g.ID_grupo">
+              {{alum.nombre}} {{alum.apellidos}}
+            </div>
+          </div>
+        </td>
+
+        <td>
+          <button class="btn btn-outline-danger" (click)="eliminar(g.ID_grupo)">Eliminar Grupo</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+</div>

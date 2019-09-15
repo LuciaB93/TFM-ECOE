@@ -1,0 +1,140 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Crear Estación</h1>
+<div id="formularioPregunta">
+  <form class="form-group" [formGroup]="addEstacion" (ngSubmit)="addNewEstacion()">
+    <br>
+    <input class="form-control"
+           type="number"
+           formControlName="numEstacion"
+           id="numEstacion"
+           placeholder="Introduzca el número de la estación a crear">
+
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="nombreE"
+           id="nombreE"
+           placeholder="Indique Nombre de la Estación">
+
+    <br>
+    <textarea class="form-control"
+              rows="5"
+              cols="40"
+              formControlName="descripcionE"
+              id="descripcionE"
+              placeholder="Indice Descripción de Estación (Opcional)">
+    </textarea>
+    <br>
+    <textarea class="form-control"
+           type="text"
+           formControlName="partida"
+           id="partida"
+           placeholder="Introduzca Situación de Partida (Opcional)">
+    </textarea>
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="password"
+           id="pass"
+           placeholder="Introduzca la Contraseña de la Estación">
+    <br>
+    <input class="form-control"
+           type="number"
+           formControlName="peso"
+           id="peso"
+           placeholder="Introduzca el Peso de la Estación">
+    <br>
+    <label>Seleccionar el Grupo de Alumnos para la Estación</label>
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Grupo</th>
+        <th scope="col">Profesor</th>
+        <th scope="col">Seleccionar Grupo</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let g of groupList; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{g.nombre_grupo}}</td>
+        <td>{{g.nombre}} {{g.apellidos}}</td>
+        <td>
+          <input type="checkbox" aria-label="Checkbox for following text input" (click)="addGroup(g.ID_grupo)">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <label>Seleccionar Profesor Suplente para la Estación</label>
+    <div class="form-group">
+      <select class="form-control" (change)="addProf($event.target.value)" formControlName="profSelected">
+        <option value = "" > --Seleccione Profesor Suplente-- </option>
+        <option *ngFor="let p of profList" [(value)]="p.ID"> {{p.DNI}} - {{p.nombre}} {{p.apellidos}}</option>
+      </select>
+    </div>
+
+    <label>Seleccionar Actor para la Estación (Opcional)</label>
+    <div class="form-group">
+      <select class="form-control" (change)="addActor($event.target.value)" formControlName="actorSelected">
+        <option value = "" > --Seleccione Actor-- </option>
+        <option *ngFor="let a of actorList" [(value)]="a.ID"> {{a.DNI}} - {{a.nombre}} {{a.apellidos}}</option>
+      </select>
+    </div>
+
+    <label>Seleccionar Tipo de Prueba a Crear</label>
+    <div class="form-group">
+      <select class="form-control" (change)="tipoPrueba($event.target.value)" formControlName="pruebaSelected">
+        <option value = "" > --Seleccione Tipo Prueba-- </option>
+        <option *ngFor="let t of tipos" [(value)]="t.id"> {{t.nombre}}</option>
+      </select>
+    </div>
+
+    <label>Seleccionar Materia a Evaluar</label>
+    <div class="form-group">
+      <select class="form-control" (change)="addMateria($event.target.value)" formControlName="materiaSelected">
+        <option value = "" > --Seleccione Materia-- </option>
+        <option *ngFor="let m of materiaList" [(value)]="m.ID_subject"> {{m.nombre}}</option>
+      </select>
+    </div>
+
+    <input type="button" class="btn btn-primary btn-sm" value="Mostrar Comptetencias" (click)="showCompetencias()">
+
+    <div *ngIf="showCompe">
+      <label>Seleccionar los Items que se van a Evaluar</label>
+      <table class="table">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Pregunta</th>
+          <th scope="col">Peso</th>
+          <th scope="col">Seleccionar</th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let item of itemList; let i = index">
+        <tr>
+          <th scope="row">{{i}}</th>
+          <td>{{item.nombre}}</td>
+          <td>{{item.peso}}</td>
+          <td>
+            <input type="checkbox" aria-label="Checkbox for following text input" (click)="addItem(item.ID_competencia)">
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <br>
+
+<!--
+    <div class="form-group">
+      <select class="form-control" (change)="tipoRol($event.target.value)" formControlName="rolSelected">
+        <option value = "" > -- Seleccione Rol de Usuario -- </option>
+        <option *ngFor="let rol of roles" [(value)]="rol.nombre"> {{rol.nombre}}</option>
+      </select>
+    </div>
+-->
+    <br>
+    <button class="btn btn-primary mb-2" type="submit" value="enviar"> Enviar </button>
+  </form>
+
+</div>

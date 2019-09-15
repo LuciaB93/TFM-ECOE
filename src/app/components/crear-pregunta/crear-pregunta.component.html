@@ -3,19 +3,21 @@
   <h1 id="subpanel">Crear Una Pregunta</h1>
   <div id="formularioPregunta">
     <p>Seleccione el tipo de prueba a crear</p>
-    <select (change)="tipoPregunta($event.target.value)">
+    <select (change)="tipoEstacion($event.target.value)">
       <option value="">-- Tipo Prueba --</option>
       <option *ngFor="let i of tipos" [(value)]="i.id" >{{i.nombre}}</option>
     </select>
 
     <div *ngIf="tipoSelected == 1"><br>
+
       <form class="form-group" [formGroup]="diagnostico" (ngSubmit)="guardarPreguntaDiagnostico()">
         <div class="form-group">
-          <select class="form-control" (change)="tipoPregunta1($event.target.value)">
+          <select class="form-control" (change)="tipoPregunta($event.target.value)" formControlName="materia">
             <option value = "" > -- Seleccione Materia -- </option>
-            <option *ngFor="let mat of materias" [value] = "mat.id"> {{mat.nombre}}</option>
+            <option *ngFor="let mat of materias" [(value)]="mat.ID_subject"> {{mat.nombre}}</option>
           </select>
         </div>
+
         <br>
         <textarea class="form-control"
                   rows="5"
@@ -24,37 +26,216 @@
                   id="descripcion"
                   placeholder="Descripción">
         </textarea>
+
         <br>
         <input class="form-control"
                type="text"
                formControlName="pregunta"
                id="pregunta"
-               placeholder="pregunta" required>
+               placeholder="pregunta">
+
         <br>
         <input class="form-control-file"
                type="file"
                formControlName="imagen"
                id="imagen"
                placeholder="¿Incluye Imagen?"
-               (change)="handleFileInput($event.target.files)">
-        <br>
-        <input class="form-control"
-               type="text"
-               formControlName="respuestas"
-               id="respuestas"
-               placeholder="Indicar todas las respuestas a la pregunta" required>
-        <br>
+               (change)="handleFileInput($event.target.files)"
+               accept="image/*">
 
-        <input type="button" (click)="addResponse($event.target)" formControlName="listaRespuestas" id="listaRespuestas" >click</input>
+        <br>
+        <div class="row">
+          <div class="col-xs-8">
+          <input class="form-control"
+                 #questions
+                 (keyup.enter)="addResponse(questions)"
+                 type="text"
+                 formControlName="questions"
+                 id="question"
+                 placeholder="Indicar todas las respuestas a la pregunta" required>
 
-        <input class="form-control" type="text" formControlName="respuestaOk" id="respuestaOk" placeholder="Indicar de las anteriores, la correcta"><br>
+          <br>
+          </div>
+          <div class="col-xs-4">
+            <div type="button" class="btn btn-primary mb-2" (click)="addResponse(questions)">Add</div>
+          </div>
+        </div>
+        <div *ngFor="let res of respuestasList; let i = index" >
+          {{ res }} <button class="btn btn-outline-danger" (click)="eliminar(i)">Eliminar</button>
+        </div>
+
+        <div class="form-group">
+          <select class="form-control" (change)="respuestaSeleccionada($event.target.value)"  formControlName="respuestaOk">
+            <option value = "" > -- Indicar de las anteriores, la respuesta correcta -- </option>
+            <option *ngFor="let resOk of respuestasList" [value]="resOk"> {{resOk}}</option>
+          </select>
+        </div>
+
         <button class="btn btn-primary mb-2" type="submit" class="btn btn-primary btn-lg" value="enviar"> Enviar </button>
       </form>
     </div> <!--Primer tipo -->
 
+    <div *ngIf="tipoSelected == 2"><br>
+      <form class="form-group" [formGroup]="cClinico" (ngSubmit)="guardarPreguntaCClinico()">
+        <div class="form-group">
+          <select class="form-control" (change)="tipoPregunta($event.target.value)" formControlName="materiaC">
+            <option value = "" > -- Seleccione Materia -- </option>
+            <option *ngFor="let mat of materias" [(value)]="mat.ID_subject"> {{mat.nombre}}</option>
+          </select>
+        </div>
 
+        <br>
+        <textarea class="form-control"
+                  rows="5"
+                  cols="40"
+                  formControlName="descripcionC"
+                  (change) = setDescripcion($event.target.value)
+                  (value) = descripcionC
+                  id="descripcionC"
+                  placeholder="Descripción">
+        </textarea>
+        <br>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Item de Evaluación</th>
+            <th scope="col">Competencia</th>
+            <th scope="col">Categoría del Item</th>
+            <th scope="col">Peso</th>
+            <th scope="col"> </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <input class="form-control"
+                     type="text"
+                     formControlName="item"
+                     id="item"
+                     placeholder="Itroduzca el Item">
 
+              <br>
+            </td>
+            <td>
+              <div class="form-group">
+                <select class="form-control" (change)="tipoCompetencia($event.target.value)" formControlName="competencia">
+                  <option value = "" > -- Seleccione Competencia -- </option>
+                  <option *ngFor="let com of competencias" [(value)]="com.ID_dominio"> {{com.ID_dominio}}, {{com.nombre}}</option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <select class="form-control" (change)="tipoCategoria($event.target.value)" formControlName="categoria">
+                  <option value = "" > -- Seleccione Categoría -- </option>
+                  <option *ngFor="let cat of categorias" [(value)]="cat.ID_categoria"> {{cat.nombre}}</option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <input class="form-control"
+                     type="text"
+                     formControlName="peso"
+                     id="peso"
+                     placeholder="Itroduzca el Peso">
 
+              <br>
+            </td>
+            <td>
+              <input type="button" class="btn btn-primary btn-sm" value="Añadir" (click)="addNewLineItem()">
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div *ngIf="showTable" >
+          <table class="table table-hover table-dark">
+            <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Item</th>
+              <th scope="col">Competencia</th>
+              <th scope="col">Categoría</th>
+              <th scope="col">Peso</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let re of itemList;  let i = index">
+            <tr>
+              <th scope="row">{{ i }}</th>
+              <td>{{re}}</td>
+              <td>{{competenciaList[i]}}</td>
+              <td>{{categoriaList[i]}}</td>
+              <td>{{pesoList[i]}}</td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-primary mb-2" type="submit"  value="enviar"> Enviar </button>
+      </form>
+    </div> <!--Segundo tipo -->
+
+    <div *ngIf="tipoSelected == 3"><br>
+      <form class="form-group" [formGroup]="informe" (ngSubmit)="guardarPreguntaInforme()">
+        <div class="form-group">
+          <select class="form-control" (change)="tipoPregunta($event.target.value)" formControlName="materiaI">
+            <option value = "" > -- Seleccione Materia -- </option>
+            <option *ngFor="let mat of materias" [(value)]="mat.ID_subject"> {{mat.nombre}}</option>
+          </select>
+        </div>
+        <br>
+        <textarea class="form-control"
+                  rows="5"
+                  cols="40"
+                  formControlName="puntoPartida"
+                  (value) = puntoPartida
+                  id="puntoPartida"
+                  placeholder="Punto de Partida">
+        </textarea>
+        <br>
+        <input class="form-control"
+               type="text"
+               formControlName="preguntaI"
+               id="preguntaI"
+               placeholder="pregunta">
+
+        <br>
+        <div>
+          <div class="row">
+            <div class="col-xs-8">
+              <input class="form-control"
+                     #questionsI
+                     (keyup.enter)="addResponseI(questionsI)"
+                     type="text"
+                     formControlName="questionsI"
+                     id="questionI"
+                     placeholder="Indicar todas las respuestas a la pregunta" required>
+              <br>
+            </div>
+            <div class="col-xs-4">
+              <div type="button" class="btn btn-primary mb-2" (click)="addResponseI(questionsI)">Add</div>
+            </div>
+          </div>
+          <br>
+          <input class="form-control"
+                 type="text"
+                 formControlName="pesoI"
+                 id="pesoI"
+                 placeholder="Itroduzca el Peso">
+          <br>
+          <div class="form-group">
+            <select class="form-control" (change)="tipoCompetencia($event.target.value)" formControlName="competenciaI">
+              <option value = "" > -- Seleccione Competencia -- </option>
+              <option *ngFor="let com of competencias" [(value)]="com.ID_dominio"> {{com.ID_dominio}}, {{com.nombre}}</option>
+            </select>
+          </div>
+          <div *ngFor="let res of respuestasInformeList; let i = index" >
+            {{ res }} <button class="btn btn-outline-danger" (click)="eliminar(i)">Eliminar</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary mb-2" type="submit"  value="enviar"> Enviar </button>
+      </form>
+    </div> <!-- Tercer tipo -->
 
   </div>
 

@@ -29,6 +29,17 @@ import { APP_ROUTING } from './app.routes';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { PanelCoordiComponent } from './components/panel-coordi/panel-coordi.component';
 import { CrearPreguntaComponent } from './components/crear-pregunta/crear-pregunta.component';
+import { ModPreguntaComponent } from './components/mod-pregunta/mod-pregunta.component';
+import { AddUserComponent } from './components/add-user/add-user.component';
+import { DelUserComponent } from './components/del-user/del-user.component';
+import { AddAlumGroupComponent } from './components/add-alum-group/add-alum-group.component';
+import { ListGroupUserComponent } from './components/list-group-user/list-group-user.component';
+import { AddEstacionComponent } from './components/add-estacion/add-estacion.component';
+import { AsignEstacionComponent } from './components/asign-estacion/asign-estacion.component';
+import { DelEstacionComponent } from './components/del-estacion/del-estacion.component';
+import { CambiarPassComponent } from './components/cambiar-pass/cambiar-pass.component';
+import { AddExamenComponent } from './components/add-examen/add-examen.component';
+import { VerExamenComponent } from './components/ver-examen/ver-examen.component';
 
 // services
 
@@ -46,7 +57,18 @@ import { CrearPreguntaComponent } from './components/crear-pregunta/crear-pregun
     NavbarComponent,
     DialogComponent,
     PanelCoordiComponent,
-    CrearPreguntaComponent
+    CrearPreguntaComponent,
+    ModPreguntaComponent,
+    AddUserComponent,
+    DelUserComponent,
+    AddAlumGroupComponent,
+    ListGroupUserComponent,
+    AddEstacionComponent,
+    AsignEstacionComponent,
+    DelEstacionComponent,
+    CambiarPassComponent,
+    AddExamenComponent,
+    VerExamenComponent
   ],
   imports: [
     BrowserModule,

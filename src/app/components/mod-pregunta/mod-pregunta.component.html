@@ -1,0 +1,36 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Eliminar Pregunta Creada</h1>
+<div id="formularioPregunta">
+  <div class="form-group">
+    <p>Seleccione la materia a la que pertenece la pregunta</p>
+    <select class="form-control" (change)="tipoPregunta($event.target.value)" [(value)]="materia">
+      <option value = "" > -- Seleccione Materia -- </option>
+      <option *ngFor="let mat of materias" [(value)]="mat.ID_subject"> {{mat.nombre}}</option>
+    </select>
+  </div>
+
+  <div *ngIf="isSelected">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Item</th>
+        <th scope="col">Competencia</th>
+        <th scope="col">Peso</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let item of items; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{item.nombre}}</td>
+        <td>{{item.ID_dominio}}</td>
+        <td>{{item.peso}}</td>
+        <td>
+          <button class="btn btn-outline-danger" (click)="eliminar(item.ID_competencia)">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
