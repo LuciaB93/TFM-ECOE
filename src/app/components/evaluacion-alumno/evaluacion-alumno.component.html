@@ -1,0 +1,53 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Examen ECOE</h1>
+<div id="formularioPregunta">
+
+  <div *ngIf="type == 1">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"></th>
+        <th scope="col">Pregunta</th>
+        <th scope="col">Opciones</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let c of competenciasList; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td><img class="card-img-top" src="'./ecoe-api/fotos/' + {{c.imagen}}" alt="image cap"></td>
+        <td>{{c.nombre}}</td>
+        <td>
+          <div *ngFor="let o of opciones1List">
+            <div *ngIf="c.ID_indicador === o.ID_indicador"> {{ o.name }}
+              <input type="checkbox" aria-label="Checkbox for following text input" (click)="addRespuestaAl(o)">
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary mb-2" type="submit"  value="enviar" (click)="enviarExamenTipo1()"> Enviar Examen </button>
+  </div>
+
+  <div *ngIf="type === 2 || type ===3">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Estación</th>
+        <th scope="col">Situación de partida</th>
+        <th scope="col">Descripción</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let c2 of competencias2List; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{c2.nombre}}</td>
+        <td>{{c2.situacion_partida}}</td>
+        <td>{{c2.descripcion}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

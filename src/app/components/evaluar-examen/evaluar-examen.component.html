@@ -1,0 +1,33 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Evaluación Examen ECOE</h1>
+<div id="formularioPregunta">
+  <div class="form-group">
+    <select class="form-control" (change)="evAlumno($event.target.value)" [(value)]="alumSelected">
+      <option value = "" > --Seleccione Alumno a Evaluar-- </option>
+      <option *ngFor="let p of alumList" [(value)]="p.ID"> {{p.DNI}} - {{p.nombre}} {{p.apellidos}}</option>
+    </select>
+  </div>
+
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item a evaluar</th>
+      <th scope="col">Peso</th>
+      <th scope="col">Marcar</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let g of compeList; let i = index">
+    <tr>
+      <th scope="row">{{i}}</th>
+      <td>{{g.nombre}}</td>
+      <td>{{g.peso}}</td>
+      <td>
+        <input type="checkbox" aria-label="Checkbox for following text input" (click)="addItemCorrecto(g.ID_competencia)">
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-primary mb-2" type="submit" value="enviar"> Eviar Evaluación </button>
+</div>
+<button class="btn btn-outline-secondary" type="button" onclick="history.back()" style="margin-left: 80%"> Volver Atrás</button>

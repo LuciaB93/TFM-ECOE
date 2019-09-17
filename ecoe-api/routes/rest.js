@@ -266,7 +266,7 @@ router.post('/upload', upload, function (req, res, next) {
   const nombre = req.body.nombre;
   const nombreI = req.file.filename;
 
-  connection.query('update indicador set imagen=? where nombre=? and deleted=0', ['/fotos/' + nombreI, nombre], function (error, result) {
+  connection.query('update indicador set imagen=? where nombre=? and deleted=0', ['/ecoe-api/fotos/' + nombreI, nombre], function (error, result) {
     if (error) err.Errors(res, error);
     //else err.Errors(res, error, result);
   })
@@ -810,12 +810,13 @@ router.post('/crearGrupo', function (req, res, next) {
         if(error) err.Errors(res, error);
         else{
           let id_g = result[0].ID_grupo;
+          console.log('grupo:' + id_g);
           connection.query('insert into profesorGrupo(ID_grupo,ID_profesor) values(?,?)',[id_g,profesor],function (error, result) {
             if(error) err.Errors(res, error);
             else console.log('insertado en profesorGrupo')
           });
           async.each(alumnos, function (item, callback) {
-            connection.query('insert into alumnoGrupo( ID_alumno,ID_grupo) values(?,?)',[item.ID,id_g],function (error, result) {
+            connection.query('insert into alumnoGrupo( ID_alumno,ID_grupo) values(?,?)',[item,id_g],function (error, result) {
               if(error) callback(error, null);
               else{
                 console.log("Insertado en alumnoGrupo");
@@ -823,8 +824,8 @@ router.post('/crearGrupo', function (req, res, next) {
               }
             })
           },function (error) {
-            if(error) err.Errors(res, error);
-
+            //if(error) err.Errors(res, error);
+            console.log('ERROR');
           })
 
         }
@@ -928,8 +929,6 @@ router.post('/crearEstacion', function (req, res, next) {
             if (listaProfC !== undefined) {
               for (let i = 0; i < listaProfC.length; i++) {
                 let id = listaProfC;
-                console.log(ID_esta);
-                console.log(id);
                 connection.query('insert into profesorEstacion(ID_profesor,ID_estacion) values(?,?)', [id, ID_esta], function (error, result) {
                   if (error) callback(1000);
                   else {
@@ -969,35 +968,30 @@ router.post('/creaPreguntaEcoe', function (req, res, next) {
       if (error) callback(1000);
       else {
         id_estacion = result[0].ID_estacion;
-
-
         for (let i = 0; i < listaItem.length; i++) {
-          let item = listaItem[i].nombre;
-          let peso = listaItem[i].peso;
-          let id_com = listaItem[i].ID_competencia;
-
-          //console.log(item);
-
-          connection.query('insert into pregunta(ID_competencia, ID_estacion,peso) values(?,?,?)', [id_com, id_estacion, peso], function (error, result) {
-            if (error) callback(1000);
-            else {
-              console.log("Insertado en pregunta");
-            }
+          connection.query('Select nombre, peso from competencia where ID_competencia=? and deleted=0',[listaItem[i]], function (error, result) {
+            let item = result[0].nombre;
+            let peso = result[0].peso;
+            let id_com = listaItem[i];
+            connection.query('insert into pregunta(ID_competencia, ID_estacion,peso) values(?,?,?)', [id_com, id_estacion, peso], function (error, result) {
+              if (error) callback(1000);
+              else {
+                console.log("Insertado en pregunta");
+              }
+            })
           })
         }
       }
       //console.log(id_estacion);
       callback(0);
-
     })
-
-
   }
 });
 
 router.post('/gruposEstacion', function (req, res, next) {
   const grupos= req.body.grupos;
   const estacion = req.body.estacion;
+  console.log('grupos:  ' + grupos,   'estacion:  ' +estacion);
 
   gruposEstacion(grupos, estacion, function (error, result) {
     if (error) err.Errors(res, error);
@@ -1010,33 +1004,31 @@ router.post('/gruposEstacion', function (req, res, next) {
       if (error) callback(1000);
       else {
         id_estacion = result[0].ID_estacion;
-
         for (let i = 0; i < grupos.length; i++) {
-          let profe = grupos[i].ID_profesor;
-          let id_g = grupos[i].ID_grupo;
-
-          console.log(profe);
-          connection.query('update profesorGrupo set ID_estacion=? where ID_profesor=? and deleted=0', [id_estacion, profe], function (error, result) {
-            if (error) callback(1000);
-            else {
-              console.log("profesorGrupo Actualizado")
-            }
-          });
-
-          connection.query('select ag.ID_alumno,ag.ID_grupo from alumnoGrupo ag  JOIN grupo g  where ag.deleted=0 and g.deleted=0 and g.ID_grupo = ag.ID_grupo and g.ID_grupo = ? ', [id_g], function (error, result) {
-            if (error) callback(1000);
-            else {
-              for (let j = 0; j < result.length; j++) {
-                let id_a = result[j].ID_alumno;
-                let id_gru = result[j].ID_grupo
-                connection.query('insert into alumnoEstacion(ID_alumno, ID_estacion,ID_grupo) values(?,?,?)', [id_a, id_estacion, id_gru], function (error, result) {
-                  if (error) callback(1000);
-                  else {
-                    console.log("insertado en alumnoEstacion")
-                  }
-                })
+          connection.query('SELECT ID_profesor, nombre_grupo from grupo where ID_grupo=? and deleted=0', [grupos[i]], function (error, result) {
+            let profe = result[0].ID_profesor;
+            let id_g = grupos[i];
+            connection.query('update profesorGrupo set ID_estacion=? where ID_profesor=? and deleted=0', [id_estacion, profe], function (error, result) {
+              if (error) callback(1000);
+              else {
+                console.log("profesorGrupo Actualizado")
               }
-            }
+            });
+            connection.query('select ag.ID_alumno,ag.ID_grupo from alumnoGrupo ag  JOIN grupo g  where ag.deleted=0 and g.deleted=0 and g.ID_grupo = ag.ID_grupo and g.ID_grupo = ? ', [id_g], function (error, result) {
+              if (error) callback(1000);
+              else {
+                for (let j = 0; j < result.length; j++) {
+                  let id_a = result[j].ID_alumno;
+                  let id_gru = result[j].ID_grupo;
+                  connection.query('insert into alumnoEstacion(ID_alumno, ID_estacion,ID_grupo) values(?,?,?)', [id_a, id_estacion, id_gru], function (error, result) {
+                    if (error) callback(1000);
+                    else {
+                      console.log("insertado en alumnoEstacion")
+                    }
+                  })
+                }
+              }
+            })
           })
         }
 
@@ -1130,6 +1122,327 @@ router.post('/eliminarEstacion', function (req, res, next) {
 
   })
 
+});
+
+router.post('/generarExamen', function (req, res, next) {
+  const estaciones = req.body.estaciones;
+  const convocatoria = req.body.convocatoria;
+  const anio = req.body.anio;
+  const nombre=req.body.nombre;
+
+  generarExamen(estaciones, convocatoria, anio,nombre, function (error, result) {
+    if (error) err.Errors(res, error);
+    else err.Errors(res, error, result);
+  });
+
+  function generarExamen(estaciones, convocatoria, anio, nombre, callback) {
+
+    let id_t;
+
+    connection.query('insert into titulacion(nombre,anio,convocatoria) values(?,?,?)', [nombre, anio, convocatoria], function (error, result) {
+      if (error) callback(1000);
+    });
+
+    connection.query('select ID_titulacion from titulacion where anio=? and convocatoria=? and nombre=? and deleted=0', [anio, convocatoria, nombre], function (error, result) {
+      if (error) callback(1000);
+      else {
+        id_t = result[0].ID_titulacion;
+        for (let i = 0; i < estaciones.length; i++) {
+          let estacion = estaciones[i].ID_estacion;
+          connection.query('update estacion set ID_titulacion=? where ID_estacion=? and deleted=0', [id_t, estacion], function (error, result) {
+            if (error) callback(1000)
+          })
+        }
+      }
+    });
+
+    callback(0);
+  }
+
+});
+
+router.post('/listaConvocatorias', function (req, res, next) {
+  connection.query('select ID_titulacion,nombre, anio, convocatoria from titulacion where deleted=0',function (error, result) {
+    if(error) err.Errors(res, error);
+    else err.Errors(res, error, {data: result})
+  })
+});
+
+router.post('/muestraExamen', function (req, res, next) {
+  const id_titulacion= req.body.id_t;
+  connection.query('Select ID_estacion,numero_estacion,nombre,descripcion, peso from estacion where ID_titulacion=? and deleted=0',[id_titulacion],function (error, result) {
+    if(error) err.Errors(res, error);
+    else err.Errors(res, error, {data:result});
+  })
+});
+
+router.post('/muestraCompetencias', function (req, res, next) {
+  const estacion = req.body.estacion;
+  //console.log(estacion);
+  connection.query('select  c.nombre, c.peso,c.ID_competencia,c.ID_dominio,c.ID_type from competencia c  JOIN pregunta p ON c.ID_competencia=p.ID_competencia and p.ID_estacion=? where  p.deleted=0 and c.deleted=0', [estacion], function (error, result) {
+    async.each(result, function (item, callback) {
+      if (error) return callback(error, null)
+      else {
+        callback(null, result)
+      }
+    }, function (error) {
+      if (error) return err.Errors(res, error);
+      err.Errors(res, error, {data: result});
+      //console.log(array);
+    })
+  })
+});
+
+router.post('/listaEstacionesSuplentes', function (req, res, next) {
+  const id = req.body.id;
+
+  connection.query('select DISTINCT e.nombre,e.ID_estacion from profesorEstacion p  JOIN estacion e ON e.ID_estacion=p.ID_estacion and p.ID_profesor=? where  p.deleted=0 and e.deleted=0 and e.tipo_estacion=2', [id], function (error, result) {
+    if (error) err.Errors(res, error);
+    else err.Errors(res, error, {data: result});
+
+  });
+
+});
+
+router.post('/listaExamenes', function (req, res, next) {
+  const id = req.body.id;
+  console.log(id);
+      connection.query('select DISTINCT e.* from estacion e JOIN profesorGrupo pg  ON pg.ID_estacion=e.ID_estacion where pg.ID_profesor=? and e.deleted=0  and pg.deleted = 0 and e.tipo_estacion=2 ', [id], function (error, result) {
+        if (error) err.Errors(res, error);
+        else err.Errors(res, error, {data: result});
+      })
+
+
+});
+
+router.post('/listaGruposProfesor', function (req, res, next) {
+  const id = req.body.id;
+  let array=[];
+  connection.query('Select g.nombre_grupo,g.ID_grupo, ae.ID_alumno from grupo  g JOIN usuario u JOIN alumnoEstacion ae  ON u.ID=g.ID_profesor where g.deleted=0 and u.deleted=0  and u.ID =? and ae.ID_grupo = g.ID_grupo ',[id],function (error, result) {
+    if(error) err.Errors(res, error);
+    else {
+      async.each(result,function (item,callback) {
+        connection.query('select ID,DNI,nombre,apellidos from usuario  where ID=? and deleted=0 ',[item.ID_alumno],function (error, result) {
+          if(error) callback(error, null);
+          else{
+            array.push(result[0])
+            //console.log(array)
+          }
+          callback(null, result)
+        })
+      },function (error) {
+        if(error) err.Errors(res, error);
+        else err.Errors(res, error, {data: array})
+      });
+      //err.Errores(res, error, {data: result})
+    }
+  })
+});
+
+router.post('/muestraCompetencias', function (req, res, next) {
+  const estacion = req.body.estacion;
+  //console.log(estacion);
+  connection.query('select  c.nombre, c.peso,c.ID_competencia,c.ID_dominio,c.ID_type from competencia c  JOIN pregunta p ON c.ID_competencia=p.ID_competencia and p.ID_estacion=? where  p.deleted=0 and c.deleted=0', [estacion], function (error, result) {
+    async.each(result, function (item, callback) {
+      console.log(item);
+      if (error) return callback(error, null);
+      else {
+        callback(null, result)
+      }
+    }, function (error) {
+      if (error) return err.Errors(res, error);
+      err.Errors(res, error, {data: result});
+      //console.log(array);
+    })
+  })
+});
+
+router.post('/listaEstacionesAlum', function (req, res, next) {
+  const id = req.body.id;
+  connection.query('Select e.nombre, e.ID_estacion,t.anio,t.convocatoria from estacion e JOIN alumnoEstacion a JOIN titulacion t ON e.ID_titulacion=t.ID_titulacion where e.ID_estacion=a.ID_estacion  and a.ID_alumno=1 and a.deleted=0 and e.deleted=0',[id],function (error, result) {
+    if(error)  err.Errors(res, error);
+    else err.Errors(res, error, {data:result});
+  })
+
+});
+
+router.post('/accesoExamen', function (req, res, next) {
+  const estacion = req.body.estacion;
+  const pass = req.body.pass;
+
+  connection.query('select pass,tipo_estacion from estacion where ID_estacion=? and pass=? and deleted=0', [estacion, pass], function (error, result) {
+    if (error) err.Errors(res, error);
+    else {
+      console.log(result[0]);
+      //err.Errores(res, error, {data:result[0].pass});}
+      err.Errors(res, error, {data: result[0]});
+    }
+  })
+});
+
+router.post('/muestraCompetenciasAl', function (req, res, next) {
+  const estacion = req.body.estacion;
+  const type = req.body.type;
+  console.log(estacion);
+  console.log(type);
+  connection.query('select  c.nombre,i.imagen,c.descripcion,e.situacion_partida,i.ID_indicador from competencia c JOIN estacion e JOIN pregunta p ON c.ID_competencia=p.ID_competencia JOIN  indicador i ON i.ID_indicador = c.ID_indicador and p.ID_estacion=? and e.ID_estacion=? where  p.deleted=0 and c.deleted=0 and i.deleted=0 and e.deleted=0', [estacion,estacion], function (error, result) {
+    async.each(result, function (item, callback) {
+      if (error) return callback(error, null);
+      else {
+        callback(null, result)
+      }
+    }, function (error) {
+      if (error) return err.Errors(res, error);
+      err.Errors(res, error, {data: result});
+      //console.log(result);
+    })
+  })
+});
+
+router.post('/muestraOpciones', function (req, res, next) {
+  const estacion = req.body.estacion;
+
+  connection.query('Select o.name,o.ID_indicador,o.ID_opcion from pregunta p JOIN competencia c JOIN opciones o ON c.ID_Indicador = o.ID_indicador where c.ID_competencia = p.ID_competencia and p.ID_estacion=?', [estacion], function (error, result) {
+    if (error) err.Errors(res, error);
+    else {
+      //console.log(result)
+      err.Errors(res, error, {data: result})
+    }
+  })
+});
+
+router.post('/evaluarAl', function (req, res, next) {
+  const opcionesAl=req.body.opcionesAl;
+  const alumno=req.body.alumno;
+
+  console.log(alumno);
+  let id_a = alumno;
+  async.each(opcionesAl, function (item, callback) {
+    console.log(item.name);
+    connection.query('insert into respuesta(name,ID_opcion,ID_alumno,ID_indicador) values(?,?,?,?)', [item.name, item.ID_opcion, id_a, item.ID_indicador], function (error, result) {
+      if (error) callback(error, null);
+      else {
+        return err.Errors(res, error, result);
+      }
+    })
+  }, function (error) {
+    if (error) return err.Errors(res, error);
+  })
+
+  //console.log(opcionesAl)
+});
+
+router.post('/comprobarRespuestas', function (req, res, next) {
+  const opcionesAl=req.body.opcionesAl;
+  const alumno=req.body.alumno;
+  let array=[];
+  let id_a = alumno;
+
+      async.each(opcionesAl,function (item, callback) {
+        connection.query('select ID_respuesta from respuesta where ID_indicador=? and ID_alumno=? and deleted=0',[item.ID_indicador,id_a],function (error, result) {
+          if(error) callback(error,null)
+          else{
+            connection.query('select c.ID_respuestaC,c.name as correcta, r.name as respuesta from respuestasCorrectas c JOIN respuesta r ON c.ID_opcion=r.ID_opcion where r.ID_alumno=? and c.deleted=0 and r.deleted=0',[id_a],function (error, result) {
+              if(error) callback(error,null)
+              else{
+                console.log(result.correcta)
+                if(result.correcta === result.respuesta )
+                  array.push(result);
+
+                //console.log(array)
+                callback(null, result)
+              }
+            })
+          }
+        })
+      },function (error) {
+        if (error) return err.Errors(res, error);
+        console.log(array[0]);
+        err.Errors(res, error, {data:array[0]});
+      })
+
+});
+
+router.post('/calificacion', function (req, res, next) {
+  const alumno=req.body.alumno;
+  const respuestas = req.body.resultado;
+  const totales = req.body.totales;
+  const estacion = req.body.estacion;
+
+  let cali;
+  let caliAl;
+
+  connection.query('select peso from estacion where ID_estacion=? and deleted=0',[estacion],function (error, result) {
+    if(error) err.Errores(res, error);
+    else{
+      let porcentaje= (result[0].peso)/100;
+      cali = ((respuestas*porcentaje)/totales).toFixed(2);
+      caliAl = ((cali*10)/porcentaje).toFixed(2);
+    }
+  });
+  console.log(cali);
+  let id_a = alumno;
+  connection.query('update alumnoEstacion set calificacion=?,calificacion_alumno=? where ID_alumno=? and ID_estacion=? and deleted=0',[cali,caliAl,id_a,estacion],function (error, result) {
+        if(error) err.Errors(res, error);
+        else err.Errors(res, error,result)
+
+      });
+
+
+
+});
+
+router.post('/muestraDescripcion', function (req, res, next) {
+  const estacion = req.body.estacion;
+  const tipo = req.body.type;
+
+  connection.query('Select nombre, descripcion, situacion_partida from estacion where ID_estacion = ? and tipo_estacion=? and deleted=0',[estacion, tipo],function (error, result) {
+    if(error)  err.Errors(res, error);
+    else err.Errors(res, error, {data:result});
+  })
+});
+
+router.post('/muestraEstacionesAlumno', function (req, res, next) {
+  const alumno = req.body.alumno;
+  var total=0;
+  var pesoT = 0;
+  var calECOE=0;
+
+      let id_a = alumno;
+
+      connection.query('select e.nombre, ae.calificacion, ae.calificacion_alumno,e.peso from estacion e JOIN alumnoEstacion ae ON e.ID_Estacion=ae.ID_estacion where ae.ID_alumno = ? and ae.deleted=0 and e.deleted=0',[id_a],function (error, result) {
+        if(error) err.Errors(res, error);
+        else{
+          err.Errors(res, error, {data: result })
+        } //err.Errores(res, error, {data: result})
+      })
+});
+
+router.post('/caliFinal', function (req, res, next) {
+  const alumno = req.body.alumno;
+  var total=0;
+  var pesoT = 0;
+  var calECOE=0;
+
+      let id_a = alumno;
+
+      connection.query('select  ae.calificacion, ae.calificacion_alumno,e.peso from estacion e JOIN alumnoEstacion ae ON e.ID_Estacion=ae.ID_estacion where ae.ID_alumno = ? and ae.deleted=0 and e.deleted=0',[id_a],function (error, result) {
+        if(error) err.Errors(res, error);
+        else{
+          async.each(result, function (item, callback) {
+            if(item.calificacion !== null){
+              total += item.calificacion;
+              pesoT += (item.peso)/100;
+            }
+          });
+          calECOE= ((total*10)/pesoT).toFixed(2);
+          //result.push({"caliECOE":calECOE})
+          //console.log(total)
+          console.log(calECOE);
+
+          err.Errors(res, error, {data: calECOE })
+        } //err.Errores(res, error, {data: result})
+      })
 })
 
 module.exports = router;

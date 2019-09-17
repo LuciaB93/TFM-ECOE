@@ -1,0 +1,20 @@
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Nombre Estación</th>
+    <th scope="col">Convocatoria</th>
+    <th scope="col">Comenzar Examen</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let eA of estacionesAList; let i = index">
+  <tr>
+    <th scope="row">{{i}}</th>
+    <td>{{eA.nombre}}</td>
+    <td>{{eA.anio}} {{eA.convocatoria}}</td>
+    <td>
+      <button type="button" class="btn btn-outline-primary" (click)="comenzarEx(eA.ID_estacion)">Comenzar Evaluación</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

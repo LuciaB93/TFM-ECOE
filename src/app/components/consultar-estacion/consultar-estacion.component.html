@@ -1,0 +1,53 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Consultar Estaciones Asignadas</h1>
+<div id="formularioPregunta">
+
+      <div class="btn-group contenedor-botones" role="group">
+        <button type="button" class="btn btn-primary btn-lg" (click)="showEsSuplente()">Mostrar Estaciones Suplente</button>
+        <button type="button" class="btn btn-primary btn-lg" (click)="showEsEvaluar()">Mostrar Estaciones Evaluar</button>
+      </div>
+  <br>
+  <div class="container main-container"></div>
+
+  <div *ngIf="showSuplente">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Estación</th>
+        <th scope="col">Comenzar Evaluación</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let eS of estacionesSList; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{eS.nombre}}</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary" (click)="evaluar(eS.ID_estacion)">Comenzar Evaluación</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="showEvaluador">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Estación</th>
+        <th scope="col">Comenzar Evaluación</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let e of estacionesEList; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{e.nombre}}</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary" (click)="evaluar(e.ID_estacion)">Comenzar Evaluación</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -67,7 +67,8 @@ export class LoginComponent implements OnInit {
             const id = response.result.data.ID;
             const token = response.result.data.token;
             localStorage.setItem('token', token);
-            console.log(localStorage.DNI);
+            localStorage.setItem('id', id);
+            console.log(localStorage.id);
             this.roles = response.result.data.roles;
             this.roles_aux = this.rolesToArray(this.roles);
             localStorage.setItem('token', response.result.data.token);
@@ -76,7 +77,7 @@ export class LoginComponent implements OnInit {
 
 
 
-        if (this.roles_aux.length === 1) {
+        if(this.roles_aux.length === 1) {
           this.auth.redirige(this.roles_aux[0]);
         } else {
           console.log('No puede haber más roles');

@@ -1,3 +1,68 @@
-<p>
-  ver-examen works!
-</p>
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Convocatoria</th>
+    <th scope="col">Año</th>
+    <th scope="col">Fecha</th>
+    <th scope="col">Seleccionar</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let e of titulaciones; let i = index">
+  <tr>
+    <th scope="row">{{i}}</th>
+    <td>{{e.nombre}}</td>
+    <td>{{e.anio}}</td>
+    <td>{{e.convocatoria}}</td>
+    <td>
+      <button class="btn btn-primary"  (click)="showExamen(e.ID_titulacion)">Mostrar</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div *ngIf="showMore">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Numero</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Descripcion</th>
+      <th scope="col">Peso</th>
+      <th scope="col">Mostrar Competencias</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let es of estaciones; let i = index">
+    <tr>
+      <th scope="row">{{i}}</th>
+      <td>{{es.numero_estacion}}</td>
+      <td>{{es.nombre}}</td>
+      <td>{{es.descripcion}}</td>
+      <td>{{es.peso}}</td>
+      <td>
+        <button class="btn btn-primary"  (click)="showCompe(es.ID_estacion)">Competencias</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="showMoreCompe">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Competencia</th>
+      <th scope="col">Peso</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let c of competencias; let i = index">
+    <tr>
+      <th scope="row">{{i}}</th>
+      <td>{{c.nombre}}</td>
+      <td>{{c.ID_dominio}}</td>
+      <td>{{c.peso}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

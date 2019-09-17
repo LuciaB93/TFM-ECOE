@@ -1,0 +1,16 @@
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Nombre Estación</th>
+    <th scope="col">Convocatoria</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let eA of estacionesAList; let i = index">
+  <tr>
+    <th scope="row">{{i}}</th>
+    <td>{{eA.nombre}}</td>
+    <td>{{eA.anio}} {{eA.convocatoria}}</td>
+  </tr>
+  </tbody>
+</table>

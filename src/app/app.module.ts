@@ -40,6 +40,15 @@ import { DelEstacionComponent } from './components/del-estacion/del-estacion.com
 import { CambiarPassComponent } from './components/cambiar-pass/cambiar-pass.component';
 import { AddExamenComponent } from './components/add-examen/add-examen.component';
 import { VerExamenComponent } from './components/ver-examen/ver-examen.component';
+import { PanelProfeComponent } from './components/panel-profe/panel-profe.component';
+import { PanelActorComponent } from './components/panel-actor/panel-actor.component';
+import { PanelAlumnoComponent } from './components/panel-alumno/panel-alumno.component';
+import { ConsultarEstacionComponent } from './components/consultar-estacion/consultar-estacion.component';
+import { EvaluarExamenComponent } from './components/evaluar-examen/evaluar-examen.component';
+import { ConsultarEstacionAlumnoComponent } from './components/consultar-estacion-alumno/consultar-estacion-alumno.component';
+import { ComenzarExamenAlumnoComponent } from './components/comenzar-examen-alumno/comenzar-examen-alumno.component';
+import { ShowCalificationComponent } from './components/show-calification/show-calification.component';
+import { EvaluacionAlumnoComponent } from './components/evaluacion-alumno/evaluacion-alumno.component';
 
 // services
 
@@ -68,7 +77,16 @@ import { VerExamenComponent } from './components/ver-examen/ver-examen.component
     DelEstacionComponent,
     CambiarPassComponent,
     AddExamenComponent,
-    VerExamenComponent
+    VerExamenComponent,
+    PanelProfeComponent,
+    PanelActorComponent,
+    PanelAlumnoComponent,
+    ConsultarEstacionComponent,
+    EvaluarExamenComponent,
+    ConsultarEstacionAlumnoComponent,
+    ComenzarExamenAlumnoComponent,
+    ShowCalificationComponent,
+    EvaluacionAlumnoComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +102,7 @@ import { VerExamenComponent } from './components/ver-examen/ver-examen.component
     MatSelectModule,
     BrowserAnimationsModule,
     RouterModule
+
     // RouterModule.forRoot( ROUTES, {useHash: true})
 
   ],

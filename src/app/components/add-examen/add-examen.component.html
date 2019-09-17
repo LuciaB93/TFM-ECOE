@@ -1,0 +1,47 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Crear Examen</h1>
+<div id="formularioPregunta">
+  <form class="form-group" [formGroup]="addExamen" (ngSubmit)="addNewExamen()">
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="nombreEx"
+           id="nombreEx"
+           placeholder="Introduzca el nombre del examen">
+    <br>
+    <input class="form-control"
+           type="number"
+           formControlName="anioConv"
+           id="anioConv"
+           placeholder="Introduzca el año de la convocatoria">
+    <br>
+    <input class="form-control"
+           type="text"
+           formControlName="mesConv"
+           id="mesConv"
+           placeholder="Introduzca el mes de la convocatoria">
+    <br>
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Numero</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Seleccionar</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let e of estacionesList; let i = index">
+      <tr>
+        <th scope="row">{{i}}</th>
+        <td>{{e.numero_estacion}}</td>
+        <td>{{e.nombre}}</td>
+        <td>
+          <input type="checkbox" aria-label="Checkbox for following text input" (click)="addEstacionToExamen(e.ID_estacion)">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button class="btn btn-primary mb-2" type="submit" value="enviar" (click)="guardarExamen()"> Enviar </button>
+
+  </form>

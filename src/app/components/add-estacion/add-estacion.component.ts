@@ -101,26 +101,22 @@ export class AddEstacionComponent implements OnInit {
       estacion: this.addEstacion.value.nombreE,
     };
 
-    console.log(json1);
-    console.log(json2);
-    console.log(json3);
-
-
-    this.http.post('http://localhost:3000/crearEstacion', json1)
-      .toPromise().then((response) => {
-        console.log("OK");
-        this.http.post('http://localhost:3000/creaPreguntaEcoe', json2);
-        this.http.post('http://localhost:3000/gruposEstacion', json3);
-        //$http.post('/rest/alumnoEstacion',json3)
-        this.auth.showError('CORRECTO','Estación creada correctamente', "success","volver");
-        this.auth.reload();
-
-      },
-      (response) => {
-        console.log("ERROR");
-        console.log(response);
-        this.auth.showError('ERROR','No se ha podido crear la estación.',"error","Volver");
-      }
-    )
+    this.http.post<any>('http://localhost:3000/crearEstacion', json1)
+      .subscribe((response) => console.log('Response:' + response));
+    this.http.post<any>('http://localhost:3000/creaPreguntaEcoe', json2)
+      .subscribe((response) => console.log('Response received: ', response));
+    this.http.post<any>('http://localhost:3000/gruposEstacion', json3)
+      .toPromise()
+      .then((response) => {
+          console.log(response);
+          this.auth.showError('CORRECTO', 'Estación creada correctamente', "success", "volver");
+          this.auth.reload();
+        },
+        (response) => {
+          console.log('ERROR');
+          console.log(response);
+          this.auth.showError('ERROR', 'No se ha podido crear la estación.', "error", "Volver");
+        }
+      );
   }
 }

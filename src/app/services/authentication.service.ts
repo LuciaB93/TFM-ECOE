@@ -18,15 +18,17 @@ export class AuthenticationService {
 
   redirige(rol) {
     if (rol === 'alumno')
-      this.router.navigateByUrl('/panelAlumno');
-    else if (rol === 'coordinador') {
+      this.router.navigateByUrl('/panel-alumno');
+    if (rol === 'coordinador') {
       console.log('Estoy en coordi');
       this.router.navigateByUrl('/panel-coordi');
     }
-    else if (rol === 'profesor')
-      this.router.navigateByUrl('/panelProfesor');
-    else if (rol === 'actor')
-      this.router.navigateByUrl('/panelActor');
+    if (rol === 'profesor') {
+      this.router.navigateByUrl('/panel-profe');
+      console.log('Estoy en profe');
+    }
+    if (rol === 'actor')
+      this.router.navigateByUrl('/panel-actor');
   }
 
   recovery() {

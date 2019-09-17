@@ -18,12 +18,12 @@ export class HomeComponent implements OnInit {
   forma: FormGroup;
   roles: any;
   roles_aux: any;
-
+/*
   usario: Object = {
     DNI: "76629676",
     password: "lucia1234",
     correo: "sfdsfs@gmail.com"
-  };
+  };*/
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute,
               private auth: AuthenticationService, private dialog: MatDialog) {

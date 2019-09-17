@@ -1,0 +1,27 @@
+<div id="inicial"></div>
+<h1 id="subpanel">Examen ECOE</h1>
+<div id="formularioPregunta">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre Estación</th>
+      <th scope="col">Calificación Obtenida</th>
+      <th scope="col">Clasificación en peso del ECOE</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let c of clasificaciones; let i = index">
+    <tr>
+      <th scope="row">{{i}}</th>
+      <td>{{c.nombre}}</td>
+      <td>{{c.calificacion_alumno}}</td>
+      <td>{{c.calificacion}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="showFinal">
+    <p> Su calificación final en el ECOE es: </p>
+    <p> {{calF}} sobre 10 </p>
+  </div>
+</div>
