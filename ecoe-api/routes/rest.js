@@ -197,27 +197,6 @@ router.post('/newPregunta', async (req, res, next) => {
               connection.query('Insert into opciones(name, ID_indicador) values(?,?)', [respuesta, id], function (error, result) {
                 if (error)
                   callback(1000);
-                /*else {
-                 connection.query('select ID_opcion from opciones where name=? and ID_indicador=? and deleted=0', [correcta,id], function (error, result) {
-                 if (error)
-                 callback(1000);
-                 else {
-                 let id_op = result[0].ID_opcion;
-                 //console.log(correcta);
-                 //console.log(id_op);
-                 /*connection.query('Insert into respuestasCorrectas(name,ID_opcion) values(?,?)', [correcta, id_op], function (error, result) {
-                 if (error)
-                 callback(1000)
-                 })
-
-                 //callback(0);
-                 }
-
-
-                 })
-
-                 } // Aqui estaba cerrado el comentario*/
-
               })
             }//Cierre del bucle for
             //callback(0);
@@ -250,6 +229,7 @@ router.post('/correctas', function (req, res, next) {
             callback(1000);
           else {
             let id_op = result[0].ID_opcion;
+            console.log('op:' + id_op);
             connection.query('Insert into respuestasCorrectas(name,ID_opcion) values(?,?)', [correcta, id_op], function (error, result) {
               if (error)
                 callback(1000);
@@ -1409,8 +1389,8 @@ router.post('/muestraEstacionesAlumno', function (req, res, next) {
   var calECOE=0;
 
       let id_a = alumno;
-
-      connection.query('select e.nombre, ae.calificacion, ae.calificacion_alumno,e.peso from estacion e JOIN alumnoEstacion ae ON e.ID_Estacion=ae.ID_estacion where ae.ID_alumno = ? and ae.deleted=0 and e.deleted=0',[id_a],function (error, result) {
+      console.log(id_a);
+      connection.query('select e.nombre, ae.calificacion, ae.calificacion_alumno,e.peso from estacion e JOIN alumnoEstacion ae ON e.ID_Estacion=ae.ID_estacion where ae.ID_alumno = 1 and ae.deleted=0 and e.deleted=0',[id_a],function (error, result) {
         if(error) err.Errors(res, error);
         else{
           err.Errors(res, error, {data: result })

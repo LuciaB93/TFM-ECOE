@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ShowCalificationComponent implements OnInit {
 
-  calificaciones: any[] = [];
+  clasificaciones: any[] = [];
   showFinal = false;
   calF: any;
 
@@ -16,10 +16,11 @@ export class ShowCalificationComponent implements OnInit {
     http.post<any>('http://localhost:3000/muestraEstacionesAlumno', {alumno: localStorage.getItem('id')} )
       .toPromise()
       .then((response) => {
-      this.calificaciones = response.result.data;
+      this.clasificaciones = response.result.data;
+      console.log(this.clasificaciones);
       this.showFinal = true;
-      for (let i=0; i<this.calificaciones.length; i++) {
-          let cal = this.calificaciones[i].calificacion;
+      for (let i=0; i<this.clasificaciones.length; i++) {
+          let cal = this.clasificaciones[i].calificacion;
           if(cal == null)
             this.showFinal=false;
         }

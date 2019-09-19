@@ -15,7 +15,7 @@
       <tbody *ngFor="let c of competenciasList; let i = index">
       <tr>
         <th scope="row">{{i}}</th>
-        <td><img class="card-img-top" src="'./ecoe-api/fotos/' + {{c.imagen}}" alt="image cap"></td>
+        <td><img class="card-img-top" src="{{c.imagen}}" alt="image cap"></td>
         <td>{{c.nombre}}</td>
         <td>
           <div *ngFor="let o of opciones1List">
