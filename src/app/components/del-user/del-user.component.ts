@@ -61,7 +61,7 @@ export class DelUserComponent implements OnInit {
                 'success'
               );
               this.auth.reload();
-              //window.location.reload();
+              // window.location.reload();
             },
             (response) => {
               console.log('ERROR');

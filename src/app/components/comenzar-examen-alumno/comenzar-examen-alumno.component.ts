@@ -52,8 +52,8 @@ export class ComenzarExamenAlumnoComponent implements OnInit {
           .catch(error => {
             Swal.showValidationMessage(
               `Request failed: ${error}`
-            )
-          })
+            );
+          });
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
